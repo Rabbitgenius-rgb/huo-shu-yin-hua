@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <base href="../"><meta name="theme-color" content="#000000">
+  <title>火树银花</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000000;color:#e5e8e0;font-family:"Songti SC","STSong",serif}
+    #scene{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
+    #scene:focus-visible{outline:1px solid #afc6b8;outline-offset:-4px}button,a,input{pointer-events:auto}button,a{font:inherit;color:inherit}button{cursor:pointer}
+    .ui{position:fixed;inset:0;pointer-events:none;transition:opacity .3s}header{position:absolute;left:34px;top:30px}.eyebrow{font:10px ui-monospace,monospace;letter-spacing:.22em;color:#91a69e}h1{font-size:29px;font-weight:400;letter-spacing:.24em;margin:12px 0 8px}header p{font-size:12px;letter-spacing:.16em;color:#9db1a9;margin:0}
+    .links{position:absolute;right:32px;top:32px;display:flex;align-items:center;gap:20px;font-size:11px;letter-spacing:.08em;color:#a8b9b0}.links a{text-decoration:none}.links a:hover{color:#fff}
+    button{border:1px solid #a0b6aa38;border-radius:2px;background:#111111b0;padding:9px 14px;font-size:12px;backdrop-filter:blur(12px)}button:hover,button[aria-pressed=true]{border-color:#b5c9bc99;color:#f1f5ed}button:focus-visible,a:focus-visible,input:focus-visible{outline:1px solid #bed4c4;outline-offset:4px}
+    .chapter{position:absolute;left:34px;bottom:151px;font-size:12px;letter-spacing:.18em;color:#a9bbb1}.chapter b{display:block;margin-top:9px;color:#e1e9df;font-size:21px;font-weight:400;letter-spacing:.16em}.chapter small{display:block;margin-top:9px;color:#8fa69c;font-size:10px;letter-spacing:.1em}
+    .transport{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:min(760px,calc(100% - 64px));background:#0c0c0ccd;border:1px solid #9bb5a12d;padding:14px 18px 13px;backdrop-filter:blur(18px)}.rail{display:flex;gap:17px;align-items:center}.rail #play{min-width:75px}.time{font:10px ui-monospace,monospace;letter-spacing:.08em;color:#a5b8ad;white-space:nowrap}#progress{flex:1;min-width:40px;height:2px;accent-color:#c8d9c6;cursor:pointer}.lower{margin-top:11px;display:flex;justify-content:space-between;gap:16px;align-items:center}.shots{display:flex;gap:17px}.shots button{border:0;border-bottom:1px solid transparent;background:none;backdrop-filter:none;padding:4px 0;font-size:11px;color:#8da89a;letter-spacing:.08em}.shots button[aria-pressed=true]{color:#d6e5d6;border-color:#b7cbb7}.utility{display:flex;gap:12px}.utility button{background:none;backdrop-filter:none;border:0;padding:4px 0;font-size:10px;color:#9ab0a2}.shortcut{position:absolute;bottom:24px;right:32px;color:#7f998b;font-size:10px;letter-spacing:.08em}.clean .ui{opacity:0;pointer-events:none}.clean .ui *{pointer-events:none}.clean-hint{display:none;position:fixed;bottom:18px;right:24px;font-size:10px;color:#81988b;pointer-events:none}.clean .clean-hint{display:block}
+    #load{position:fixed;inset:0;z-index:3;display:grid;place-items:center;background:#000000;font-size:13px;letter-spacing:.2em}[hidden]{display:none!important}
+    .transport{padding:10px 16px 8px}.rail button{padding:7px 12px;font-size:11px}.lower{margin-top:8px}.shots button,.utility button{padding:3px 0}
+    .music-credit{margin-top:7px;color:#9ab0a2;font:10px/1.45 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em}.music-credit a{color:#bdd1c3;text-decoration:none}.music-credit a:hover{text-decoration:underline}
+    @media(max-width:900px){header{top:24px;left:24px}h1{font-size:25px}.links{right:24px;top:24px;gap:12px}.links a{display:none}.chapter{left:24px;top:148px;bottom:auto}.shortcut{display:none}.transport{width:calc(100% - 40px);bottom:20px}.shots{gap:13px}.rail{gap:10px}.utility{gap:10px}}
+    @media(prefers-reduced-motion:reduce){.ui{transition:none}}
+    @media(max-width:900px){.chapter{top:128px;font-size:10px;letter-spacing:.12em}.chapter b{display:inline;margin:0 0 0 12px;font-size:15px}.chapter small{margin-top:7px;font-size:10px}.transport{padding:10px 12px 8px}.lower{gap:8px}.shots{gap:10px}}
+  </style>
+</head>
+<body>
+  <canvas id="scene" tabindex="0" aria-label="枝端金银同绽，树与银花保持成形。拖动可自由观察，空格暂停。"></canvas>
+  <div id="load" role="status">正在唤醒星火与银花…</div>
+  <div class="ui">
+    <header><div class="eyebrow">EMBER · SILVER · LIGHT</div><h1>火树银花</h1><p>金银同绽，一树银花</p></header>
+    <nav class="links" aria-label="作品显示"><button id="clean">纯净画面 H</button></nav>
+    <div class="chapter"><span id="chapter-index">01 · 一粟生光</span><b id="status" role="status">光点萌生</b><small id="hint">拖动自由观察</small></div>
+    <section class="transport" aria-label="动画播放控制">
+      <div class="rail"><button id="play" aria-pressed="true">暂停</button><input id="progress" aria-label="动画进度" type="range" min="0" max="1" step=".001" value="0"><output class="time" id="time-label">00.0 / 32.2</output><button id="replay">重播</button></div>
+      <div class="lower"><div class="shots" aria-label="章节"><button data-shot="seed">01 生光</button><button data-shot="grow">02 生长</button><button data-shot="bloom">03 同绽</button><button data-shot="tour">04 环游</button><button data-shot="letter">05 成字</button><button data-shot="finale">06 银花</button></div><div class="utility"><button id="tour" aria-pressed="true">自动运镜</button><button id="sound" aria-pressed="false" title="开启或关闭配乐">配乐关</button></div></div>
+      <div class="music-credit">音乐：<a href="https://www.silvermansound.com/free-music/imperial-china-cinematic" target="_blank" rel="noopener noreferrer">Imperial China Cinematic · Shane Ivers</a>（剪辑选段）· <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a></div>
+    </section>
+  </div>
+  <div class="clean-hint">H 恢复界面 · 空格暂停</div>
+  <script type="module" src="./assets/fire-tree-cinematic-v2.js?v=20261030-v3h26"></script>
+</body>
+</html>
